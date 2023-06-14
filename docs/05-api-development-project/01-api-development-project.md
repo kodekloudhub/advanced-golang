@@ -10,17 +10,17 @@ This API project represents a simple CRUD (Create, Read, Update, Delete) API for
 
 * [Getting Started](#getting-started)
 * [The model](#the-model)
-	* [func (t *Task) getTask() error](#func-t-task-gettask-error)
-	* [func (t *Task) updateTask() error](#func-t-task-updatetask-error)
-	* [func (t *Task) deleteTask() error](#func-t-task-deletetask-error)
+    * [func (t *Task) getTask() error](#func-t-task-gettask-error)
+    * [func (t *Task) updateTask() error](#func-t-task-updatetask-error)
+    * [func (t *Task) deleteTask() error](#func-t-task-deletetask-error)
 * [The application](#the-application)
-	* [func sendResponse(w http.ResponseWriter, statusCode int, payload interface{})](#func-sendresponsew-httpresponsewriter-statuscode-int-payload-interface)
-	* [func sendError(w http.ResponseWriter, statusCode int, err string)](#func-senderrorw-httpresponsewriter-statuscode-int-err-string)
-	* [func (app *App) getTasks(writer http.ResponseWriter, request *http.Request)](#func-app-app-gettaskswriter-httpresponsewriter-request-httprequest)
-	* [func (app *App) createTask(writer http.ResponseWriter, r *http.Request)](#func-app-app-createtaskwriter-httpresponsewriter-r-httprequest)
-	* [func (app *App) readTask(writer http.ResponseWriter, request *http.Request)](#func-app-app-readtaskwriter-httpresponsewriter-request-httprequest)
-	* [func (app *App) updateTask(writer http.ResponseWriter, request *http.Request)](#func-app-app-updatetaskwriter-httpresponsewriter-request-httprequest)
-	* [func (app *App) deleteTask(writer http.ResponseWriter, request *http.Request)](#func-app-app-deletetaskwriter-httpresponsewriter-request-httprequest)
+    * [func sendResponse(w http.ResponseWriter, statusCode int, payload interface{})](#func-sendresponsew-httpresponsewriter-statuscode-int-payload-interface)
+    * [func sendError(w http.ResponseWriter, statusCode int, err string)](#func-senderrorw-httpresponsewriter-statuscode-int-err-string)
+    * [func (app *App) getTasks(writer http.ResponseWriter, request *http.Request)](#func-app-app-gettaskswriter-httpresponsewriter-request-httprequest)
+    * [func (app *App) createTask(writer http.ResponseWriter, r *http.Request)](#func-app-app-createtaskwriter-httpresponsewriter-r-httprequest)
+    * [func (app *App) readTask(writer http.ResponseWriter, request *http.Request)](#func-app-app-readtaskwriter-httpresponsewriter-request-httprequest)
+    * [func (app *App) updateTask(writer http.ResponseWriter, request *http.Request)](#func-app-app-updatetaskwriter-httpresponsewriter-request-httprequest)
+    * [func (app *App) deleteTask(writer http.ResponseWriter, request *http.Request)](#func-app-app-deletetaskwriter-httpresponsewriter-request-httprequest)
 * [And finally...](#and-finally)
 
 # Getting Started
@@ -60,10 +60,10 @@ We can see from the tests that the payloads sent and returned across the API are
 ```go
 import (
     "encoding/json"  // <- add this
-	"log"
-	"net/http"
+    "log"
+    "net/http"
 
-	"github.com/gorilla/mux"
+    "github.com/gorilla/mux"
 )
 ```
 
@@ -91,23 +91,23 @@ So the logic for this function is to search the task list for the given ID. If t
 ```go
 func (t *Task) getTask() error {
     // Get the task ID from the receiver argument
-	id := t.ID
+    id := t.ID
 
     // Range over existing tasks
-	for _, task := range tasks {
-		if task.ID == id {
+    for _, task := range tasks {
+        if task.ID == id {
             // Matching ID - fill in other fields of *t
-			t.DueDate = task.DueDate
-			t.Name = task.Name
-			t.Description = task.Description
+            t.DueDate = task.DueDate
+            t.Name = task.Name
+            t.Description = task.Description
             // return no error
-			return nil
-		}
-	}
+            return nil
+        }
+    }
 
     // If we get here, the task isn't found
     // so return the correct error text as an error object.
-	return errors.New("task not found")
+    return errors.New("task not found")
 }
 ```
 
@@ -122,22 +122,22 @@ The code for this function is very similar to the `getTask`, function in that we
 ```go
 func (t *Task) updateTask() error {
     // Get the task ID from the receiver argument
-	id := t.ID
+    id := t.ID
 
     // Range over existing tasks, capturing the index as well as the task content
-	for index, task := range tasks {
-		if task.ID == id {
+    for index, task := range tasks {
+        if task.ID == id {
             // Found task - update details
-			task.DueDate = t.DueDate
-			task.Name = t.Name
-			task.Description = t.Description
+            task.DueDate = t.DueDate
+            task.Name = t.Name
+            task.Description = t.Description
             // Set updated task back into the list at the index position.
-			tasks[index] = task
+            tasks[index] = task
 
             // no error
-			return nil
-		}
-	}
+            return nil
+        }
+    }
 
     // If we get here, the task isn't found
     // so return the correct error text as an error object.
@@ -152,36 +152,36 @@ Once again, the ID of the task will be given in `t *Task`. We will need to loop 
 ```go
 func (t *Task) deleteTask() error {
     // Get the task ID from the receiver argument
-	id := t.ID
+    id := t.ID
 
     // Initialise this to -1 to indicate not found yet
-	indexToBeDeleted := -1
+    indexToBeDeleted := -1
 
     // Range across the task list checking task ID
-	for index, task := range tasks {
-		if task.ID == id {
+    for index, task := range tasks {
+        if task.ID == id {
             // Found the task, store index
-			indexToBeDeleted = index
+            indexToBeDeleted = index
 
             // We should break here, but that's not in the
-			// solution tab of the lab.
-			// If you do put break here, the tests will still pass
-			// and the lab will still complete :-)
-		}
-	}
+            // solution tab of the lab.
+            // If you do put break here, the tests will still pass
+            // and the lab will still complete :-)
+        }
+    }
 
-	if indexToBeDeleted == -1 {
+    if indexToBeDeleted == -1 {
         // if task.ID == id was never true, then task not found
-		return errors.New("task not found")
-	}
+        return errors.New("task not found")
+    }
 
     // Shuffle the task slice to remove the one to delete by appending
     // a slice of everything up to but not including the index to delete
     // to a slice of everything _after_ the index to delete.
-	tasks = append(tasks[:indexToBeDeleted], tasks[indexToBeDeleted+1:]...)
+    tasks = append(tasks[:indexToBeDeleted], tasks[indexToBeDeleted+1:]...)
 
     // No error
-	return nil
+    return nil
 }
 ```
 
@@ -216,10 +216,10 @@ Turning the above 4 steps to code, we have
 
 ```go
 func sendResponse(w http.ResponseWriter, statusCode int, payload interface{}) {
-	response, _ := json.Marshal(payload)
-	w.Header().Set("Content-type", "application/json")
-	w.WriteHeader(statusCode)
-	w.Write(response)
+    response, _ := json.Marshal(payload)
+    w.Header().Set("Content-type", "application/json")
+    w.WriteHeader(statusCode)
+    w.Write(response)
 }
 ```
 
@@ -230,12 +230,12 @@ Returning an error to the caller implies sending a response. An error is simply 
 To see how we need to form the error payload, we must refer to the test code. Look at line 85 in `main_test.go`. You can see this
 
 ```go
-	var errorMessage map[string]string                      // line 85
-	json.Unmarshal(response.Body.Bytes(), &errorMessage)
+    var errorMessage map[string]string                      // line 85
+    json.Unmarshal(response.Body.Bytes(), &errorMessage)
 
-	if errorMessage["error"] != "task not found" {
-		t.Errorf("handler returned unexpected error message: got %v want %v", errorMessage["error"], "task not found")
-	}
+    if errorMessage["error"] != "task not found" {
+        t.Errorf("handler returned unexpected error message: got %v want %v", errorMessage["error"], "task not found")
+    }
 ```
 
 This tells us that errors are returned as a `map[string]string`, therefore this is what the `sendError` function must prepare. We can also see that the map key is `error`.
@@ -252,8 +252,8 @@ So the task here is straight forward. Create a `map[string]string` for the error
 
 ```go
 func sendError(w http.ResponseWriter, statusCode int, err string) {
-	errorMessage := map[string]string{"error": err}
-	sendResponse(w, statusCode, errorMessage)
+    errorMessage := map[string]string{"error": err}
+    sendResponse(w, statusCode, errorMessage)
 }
 ```
 
@@ -281,15 +281,15 @@ So we need to do this in our implementation:
 ```go
 func (app *App) getTasks(writer http.ResponseWriter, request *http.Request) {
     // Get all tasks from the model
-	tasks, err := getTasks()
-	if err != nil {
+    tasks, err := getTasks()
+    if err != nil {
         // It returned an error - send it to caller with a 500 status code
-		sendError(writer, http.StatusInternalServerError, err.Error())
-		return
-	}
+        sendError(writer, http.StatusInternalServerError, err.Error())
+        return
+    }
 
     // Send the task list with a 200 (OK) status.
-	sendResponse(writer, http.StatusOK, tasks)
+    sendResponse(writer, http.StatusOK, tasks)
 }
 ```
 
@@ -327,31 +327,31 @@ This means that our handler function needs to do the following
 func (app *App) createTask(writer http.ResponseWriter, r *http.Request) {
     // Declare an instance of Task into which we will
     // attempt to read the data sent by the caller's request.
-	var p Task
+    var p Task
 
     // Use a json.Decoder to decode the []byte data in the response and
     // store the result in `p` - the instance of a task struct
-	err := json.NewDecoder(r.Body).Decode(&p)
-	if err != nil {
+    err := json.NewDecoder(r.Body).Decode(&p)
+    if err != nil {
         // The payload did not contain something
         // that looks like the correct JSON for a task.
         // That's a user error sending the wrong data.
-		sendError(writer, http.StatusBadRequest, "Invalid request payload")
-		return
-	}
+        sendError(writer, http.StatusBadRequest, "Invalid request payload")
+        return
+    }
 
     // Create the task, which will set p.ID (it's a pointer receiver)
     // with a new, unused ID.
-	err = p.createTask()
-	if err != nil {
+    err = p.createTask()
+    if err != nil {
         // Task could not be created - that's a server error
-		sendError(writer, http.StatusInternalServerError, err.Error())
-		return
-	}
+        sendError(writer, http.StatusInternalServerError, err.Error())
+        return
+    }
 
     // Send the updated task info back to the caller
     // with a status of Created, because that's what we did!
-	sendResponse(writer, http.StatusCreated, p)
+    sendResponse(writer, http.StatusCreated, p)
 }
 ```
 
@@ -360,7 +360,7 @@ func (app *App) createTask(writer http.ResponseWriter, r *http.Request) {
 This handler method is going to read a single task by calling `getTask` that we have implemented in `model.go`. As is convention in REST, the task ID to get will be passed as part of the URL, e.g. `http://example.com/task/1` and the request method is GET. If you look at the router setup provided in `main.go` we see this line
 
 ```go
-	app.Router.HandleFunc("/task/{id}", app.readTask).Methods("GET")
+    app.Router.HandleFunc("/task/{id}", app.readTask).Methods("GET")
 ```
 
 Gorilla Mux will capture the id for us, and the package provides [a Vars method](https://pkg.go.dev/github.com/gorilla/mux#Vars) for us to retrieve the value of this parameter (and any other URL parameters that may have been requested). The `Vars` call will return a `map[string]string` where the key is `id` and the value is the ID we want *as a string* so we will need to deal with that! Recall that the `strconv` package contains a method `Atoi` which will convert the string representation of an integer to an `int`. At this point, we'll need to add `strconv` to the list of imports in `main.go`
@@ -385,11 +385,11 @@ So, this function needs to do the following:
 
 ```go
 import (
-	"encoding/json"
-	"log"
-	"net/http"
-	"strconv"       // <- add this
-	"github.com/gorilla/mux"
+    "encoding/json"
+    "log"
+    "net/http"
+    "strconv"       // <- add this
+    "github.com/gorilla/mux"
 )
 
 ```
@@ -398,34 +398,34 @@ import (
 func (app *App) readTask(writer http.ResponseWriter, request *http.Request) {
     // Get the URL parameters
     // vars will be map[string]string
-	vars := mux.Vars(request)
+    vars := mux.Vars(request)
 
     // Try to get an integer from the "id" argument as "key"
-	key, err := strconv.Atoi(vars["id"])
-	if err != nil {
+    key, err := strconv.Atoi(vars["id"])
+    if err != nil {
         // If that fails (like it's eg. "abc"), then send 400 (BadRequest)
         // and message "invalid task ID" to the caller
-		sendError(writer, http.StatusBadRequest, "invalid task ID")
-		return
-	}
+        sendError(writer, http.StatusBadRequest, "invalid task ID")
+        return
+    }
 
     // Create a Task struct with only the ID we received
-	t := Task{ID: key}
+    t := Task{ID: key}
 
     // Call the getTask receiver that will either fill in the task
     // details or return an error because the task with that ID isn't found
-	err = t.getTask()
+    err = t.getTask()
 
-	if err != nil {
+    if err != nil {
         // We got an error.
         // Send a 404 (NotFound) status and the text of the
         // error returned by getTask
-		sendError(writer, http.StatusNotFound, err.Error())
-		return
-	}
+        sendError(writer, http.StatusNotFound, err.Error())
+        return
+    }
 
     // All good. Send the filled-in task to the caller.
-	sendResponse(writer, http.StatusOK, t)
+    sendResponse(writer, http.StatusOK, t)
 }
 ```
 
@@ -456,44 +456,44 @@ So, this function needs to do the following:
 func (app *App) updateTask(writer http.ResponseWriter, request *http.Request) {
     // Get the URL parameters
     // vars will be map[string]string
-	vars := mux.Vars(request)
+    vars := mux.Vars(request)
 
-	// Try to get an integer from the "id" argument as "key"
-	key, err := strconv.Atoi(vars["id"])
-	if err != nil {
+    // Try to get an integer from the "id" argument as "key"
+    key, err := strconv.Atoi(vars["id"])
+    if err != nil {
         // If that fails (like it's eg. "abc"), then send 400 (BadRequest)
         // and message "invalid task ID" to the caller
-		sendError(writer, http.StatusBadRequest, "invalid task ID")
-		return
-	}
+        sendError(writer, http.StatusBadRequest, "invalid task ID")
+        return
+    }
 
-	// Declare instance of Task struct
-	var t Task
+    // Declare instance of Task struct
+    var t Task
 
-	// Try to decode the caller's JSON into the task struct
-	err = json.NewDecoder(request.Body).Decode(&t)
+    // Try to decode the caller's JSON into the task struct
+    err = json.NewDecoder(request.Body).Decode(&t)
 
-	if err != nil {
-		// Failed - not a correct Task payload,
-		// send expected error details
-		sendError(writer, http.StatusBadRequest, "Invalid request payload")
-		return
-	}
+    if err != nil {
+        // Failed - not a correct Task payload,
+        // send expected error details
+        sendError(writer, http.StatusBadRequest, "Invalid request payload")
+        return
+    }
 
-	// Set task's ID from URL parameter
-	t.ID = key
+    // Set task's ID from URL parameter
+    t.ID = key
 
-	// Cal the model's implementation to do the work
-	err = t.updateTask()
+    // Cal the model's implementation to do the work
+    err = t.updateTask()
 
-	if err != nil {
-		// Model returned error - send it to caller with 500 (InternalServerError)
-		sendError(writer, http.StatusInternalServerError, err.Error())
-		return
-	}
+    if err != nil {
+        // Model returned error - send it to caller with 500 (InternalServerError)
+        sendError(writer, http.StatusInternalServerError, err.Error())
+        return
+    }
 
-	// Return edited task to caller
-	sendResponse(writer, http.StatusOK, t)
+    // Return edited task to caller
+    sendResponse(writer, http.StatusOK, t)
 }
 ```
 
@@ -521,36 +521,36 @@ So, this function should do the following
 func (app *App) deleteTask(writer http.ResponseWriter, request *http.Request) {
     // Get the URL parameters
     // vars will be map[string]string
-	vars := mux.Vars(request)
+    vars := mux.Vars(request)
 
-	// Try to get an integer from the "id" argument as "key"
-	key, err := strconv.Atoi(vars["id"])
+    // Try to get an integer from the "id" argument as "key"
+    key, err := strconv.Atoi(vars["id"])
 
-	if err != nil {
+    if err != nil {
         // If that fails (like it's eg. "abc"), then send 400 (BadRequest)
         // and message "invalid task ID" to the caller
-		sendError(writer, http.StatusBadRequest, "invalid task ID")
-		return
-	}
+        sendError(writer, http.StatusBadRequest, "invalid task ID")
+        return
+    }
 
-	// Initialise a Task struct with the given ID
-	t := Task{ID: key}
+    // Initialise a Task struct with the given ID
+    t := Task{ID: key}
 
-	// Call the deleteTask receiver
-	err = t.deleteTask()
+    // Call the deleteTask receiver
+    err = t.deleteTask()
 
-	if err != nil {
-		// Failed - not not found,
-		// send expected error details
-		sendError(writer, http.StatusNotFound, err.Error())
-		return
-	}
+    if err != nil {
+        // Failed - not not found,
+        // send expected error details
+        sendError(writer, http.StatusNotFound, err.Error())
+        return
+    }
 
-	// Send a map with the expected key and value to the caller along with 200 (OK) status.
-	// Recall that sendResponse takes interface{} as its payload argument,
-	// which means we can send almost anything and it will be converted to JSON.
-	// We are calling it here in the same way that sendError calls it.
-	sendResponse(writer, http.StatusOK, map[string]string{"result": "successful deletion"})
+    // Send a map with the expected key and value to the caller along with 200 (OK) status.
+    // Recall that sendResponse takes interface{} as its payload argument,
+    // which means we can send almost anything and it will be converted to JSON.
+    // We are calling it here in the same way that sendError calls it.
+    sendResponse(writer, http.StatusOK, map[string]string{"result": "successful deletion"})
 }
 ```
 
