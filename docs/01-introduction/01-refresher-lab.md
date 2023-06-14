@@ -624,7 +624,7 @@ Help for the [VSCode editor](https://github.com/kodekloudhub/community-faq/blob/
 1.  <details>
     <summary>How do you create and initialize a pointer in Go?</summary>
 
-    * `p := &i*`
+    * `p := &i`
     * `p := new(int)*`
     * `var p **int = i*`
     * `var p = &int(5)`
@@ -632,7 +632,9 @@ Help for the [VSCode editor](https://github.com/kodekloudhub/community-faq/blob/
     <details>
     <summary>Reveal</summary>
 
-    This is currently nonsense
+    > `p := &i`
+
+    Assuming a variable `i` already exists, then the `&` operator takes the address of `i` returning a pointer to it, which is used to initialise `p` as a pointer variable.
 
     </details>
     </details>
