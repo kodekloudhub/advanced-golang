@@ -91,6 +91,8 @@ func getTasks() ([]Task, error) {
 }
 ```
 
+If we were later to update the code to use a MySQL database instead of a simple slice, it would be possible to get errors from the database, so having the method also return `error`, future proofs it.
+
 ## func (t *Task) getTask() error
 
 This is a pointer receiver on `Task` struct. We can assume that to get a task we will need an ID. Since there's no `id` argument, then the id is going to be set on `t *task` (which we will see later, but for now assume this is the case).
