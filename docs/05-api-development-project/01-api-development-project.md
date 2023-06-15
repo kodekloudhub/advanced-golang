@@ -10,6 +10,7 @@ This API project represents a simple CRUD (Create, Read, Update, Delete) API for
 
 * [Getting Started](#getting-started)
 * [The model](#the-model)
+    * [func getTasks() ([]Task, error)](#func-gettasks-task-error)
     * [func (t *Task) getTask() error](#func-t-task-gettask-error)
     * [func (t *Task) updateTask() error](#func-t-task-updatetask-error)
     * [func (t *Task) deleteTask() error](#func-t-task-deletetask-error)
