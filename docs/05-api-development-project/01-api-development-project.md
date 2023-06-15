@@ -80,6 +80,17 @@ var currentID int
 
 These are the current task list (the task database), and the ID of the last task that was created. Examine `CreateIntialTasks` in `model.go`, and then `func main` and `func (app *App) Initialise` in `main.go` for how they get set up.
 
+
+## func getTasks() ([]Task, error)
+
+Nice and easy to get started. This simply needs to return the current task list. There can be no error in this, it is simply
+
+```go
+func getTasks() ([]Task, error) {
+	return tasks, nil
+}
+```
+
 ## func (t *Task) getTask() error
 
 This is a pointer receiver on `Task` struct. We can assume that to get a task we will need an ID. Since there's no `id` argument, then the id is going to be set on `t *task` (which we will see later, but for now assume this is the case).
