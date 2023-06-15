@@ -91,7 +91,7 @@ func getTasks() ([]Task, error) {
 }
 ```
 
-If we were later to update the code to use a MySQL database instead of a simple slice, it would be possible to get errors from the database, so having the method also return `error`, future proofs it.
+If we were later to update the code to use a MySQL database instead of a simple slice, it would be possible to get errors from the database, so having the method also return `error` future proofs it.
 
 ## func (t *Task) getTask() error
 
@@ -178,6 +178,9 @@ func (t *Task) deleteTask() error {
 
             // We should break here, but that's not in the
             // solution tab of the lab.
+            // If there were a million tasks, we wouldn't want
+            // to check all the rest if the first one was the
+            // one we needed!
             // If you do put break here, the tests will still pass
             // and the lab will still complete :-)
         }
